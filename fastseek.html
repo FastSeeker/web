@@ -25,10 +25,11 @@
         <div id="upPanel">
             <!-- Game name -->
             <div>
-                <h1>FastSeek v0.2</h1>
+                <h1>FastSeek v0.2.1</h1>
+                <h3>By gvl610</h3>
             </div>
 
-            <!-- Central information area -->
+            <!-- Information area -->
             <div>
                 <h2 id="timerText">00:00</h3>
                 <h3 id="notiText" style="display: none">You lost!</h3>
@@ -39,10 +40,18 @@
                 <button class="bigButton" id="playButton" onclick="startGame();">Play</button>
                 <button class="bigButton" onclick="lose();">Resign</button>
                 <button class="bigButton" onclick="fetchNewPage();">Random</button>
+                <button class="bigButton" onclick="customMode();">Custom</button>
             </div>
         </div>
 
-        <!-- Play ground. Just a big bad iframe (either source from other web or contain our own stuff) -->
+        <!-- Manual input field (if enabled) -->
+        <div id="manualInputDiv" style="display: none;">
+            <textarea rows="10" id="manualInputField" placeholder="Use context menu or CTRL-V to paste! Copy and paste your own material here."></textarea>
+            <button onclick="manualInputClear();">Clear</button>
+            <button onclick="manualInputDone();">Done</button>
+        </div>
+
+        <!-- Playground. Just a big bad iframe (either source from other web or contain our own stuff) -->
         <iframe id="frame" allowtransparency="true" src="about:blank"></iframe>
 
         <!-- Visitor counter (I just want some stats bro) -->
@@ -55,9 +64,11 @@
             notiText = document.getElementById("notiText");
             playButton = document.getElementById("playButton");
             frame = document.getElementById("frame");
+            manualInputDiv = document.getElementById("manualInputDiv");
+            manualInputField = document.getElementById("manualInputField");
 
             // Initialization
-            setup(timerText, notiText, playButton, frame);
+            setup(timerText, notiText, playButton, frame, manualInputDiv, manualInputField);
         </script>
     </body>
 </html>

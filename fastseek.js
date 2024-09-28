@@ -3,6 +3,10 @@
  * Written by gvl610
  */
 
+// Cheat
+// Yes I love Source engine's variables
+var sv_cheats = false;
+
 // Debug level
 // 0: nothing will output
 // 1: output some basic events
@@ -15,11 +19,16 @@ function LOG(lvl, msg) {
 }
 
 // Some global variables
-var timerText, notiText, playButton, frame; // DOM
+var timerText, notiText, playButton, frame, manualInputDiv, manualInputField; // DOM
 var ssu = new SpeechSynthesisUtterance();
 
 // Max distance to be considered a win
 var toleranceRange = 30;
+
+// Game modes
+// 0: Random mode (fetch random articles from Wikipedia)
+// 1: Custom material (upload/paste)
+var gameMode = 0;
 
 var playing = false;
 var playTimeSec = 0;
@@ -31,22 +40,24 @@ var orgText = "";
 var readingText = "";
 
 // Init (if needed)
-function setup(d1, d2, d3, d4) {
+function setup(d1, d2, d3, d4, d5, d6) {
     // Store DOM
     timerText = d1;
     notiText = d2;
     playButton = d3;
     frame = d4;
+    manualInputDiv = d5;
+    manualInputField = d6;
 
     // Cancel previous SSU
     window.speechSynthesis.cancel();
 
     // Disable keyboard (no cheating pls :D)
     // Except for F5 key (refresh)
-    sv_cheats = false; // Yes I love Source engine's variables
     window.addEventListener("keydown", (e) => {
         if (!sv_cheats) {
-            if (e.keyCode !== 116) { // F5 key code
+            // Only some keys are allowed
+            if (e.keyCode !== 116 && e.keyCode !== 86 && !e.ctrlKey) {
                 e.preventDefault();
             }
         }
@@ -212,7 +223,14 @@ function onendHandler(event) {
 
 // Fetch new page
 function fetchNewPage() {
+    gameMode = 0;
     LOG(1, "[GAME] Fetching new page");
+
+    // Close manual input field (if needed)
+    if (manualInputDiv.style.display == "block") {
+        manualInputDiv.style.display = "none";
+        manualInputField.value = "";
+    }
 
     // Reset
     reset();
@@ -232,7 +250,7 @@ function fetchNewPage() {
                 tag.parentNode.removeChild(tag);
             });
 
-            // Extract sentences from the article
+            // Extract text from the article
             fullText = frame.contentDocument.body.innerText;
             LOG(2, "[FULL_TEXT] " + fullText);
             //fullHTML = frame.contentDocument.body.innerHTML;
@@ -247,4 +265,47 @@ function fetchNewPage() {
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min);
     //return 0;
+}
+
+// Custom mode button handler
+function customMode() {
+    gameMode = 1;
+    LOG(1, "[GAME] Enter custom mode");
+
+    // Reset
+    reset();
+    frame.src = "about:blank";
+
+    // Open input/upload field
+    manualInputDiv.style.display = "block";
+    manualInputField.value = "";
+}
+
+// Manual input done button handler
+function manualInputDone() {
+    LOG(1, "[MAN] Manual input text area done");
+
+    // Close manual input area
+    manualInputDiv.style.display = "none";
+
+    // Reset
+    reset();
+    frame.src = "about:blank";
+
+    // Write content to iframe
+    frame.contentDocument.write(manualInputField.value);
+
+    // Extract text from the article
+    fullText = frame.contentDocument.body.innerText;
+    LOG(2, "[FULL_TEXT] " + fullText);
+    //fullHTML = frame.contentDocument.body.innerHTML;
+
+    // Click play button
+    playButton.click();
+}
+
+// Manual input clear button handler
+function manualInputClear() {
+    manualInputField.value = "";
+    LOG(1, "[MAN] Manual input text area cleared");
 }

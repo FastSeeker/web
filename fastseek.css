@@ -23,6 +23,11 @@ iframe {
 }
 
 .bigButton {
-    height:73.34px;
-    width:73.34px;
+    height: 73.34px;
+    width: 73.34px;
+}
+
+textarea {
+    width: 100%;
+    display: block;
 }
