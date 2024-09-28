@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<!--
+    FastSeek by gvl610
+    Rewritten from v0.1 for a more organized and less buggy code.
+    Date rewritten 28/9/2024
+-->
+
+<html>
+    <head>
+        <!-- Some meta stuff -->
+        <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="referrer" content="no-referrer">
+        <title>FastSeek</title>
+        
+        <!-- CSS -->
+        <link rel="stylesheet" href="fastseek.css">
+
+        <!-- JS -->
+        <script type="text/javascript" src="fastseek.js"></script>
+    </head>
+    <body>
+        <!-- Upper panel (gameplay control) -->
+        <div id="upPanel">
+            <!-- Game name -->
+            <div>
+                <h1>FastSeek v0.2</h1>
+            </div>
+
+            <!-- Central information area -->
+            <div>
+                <h2 id="timerText">00:00</h3>
+                <h3 id="notiText" style="display: none">You lost!</h3>
+            </div>
+
+            <!-- Game control buttons -->
+            <div>
+                <button class="bigButton" id="playButton" onclick="startGame();">Play</button>
+                <button class="bigButton" onclick="onendHandler(null);">Resign</button>
+                <button class="bigButton" onclick="fetchNewPage();">Random</button>
+            </div>
+        </div>
+
+        <!-- Play ground. Just a big bad iframe (either source from other web or contain our own stuff) -->
+        <iframe id="frame" allowtransparency="true" src="about:blank"></iframe>
+
+        <!-- Visitor counter (I just want some stats bro) -->
+        <a href='https://www.free-counters.org/'>free Hit Counter</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=37abea9548b5b76530a105ce3f21f267cd9b5bdb'></script> <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1240776/t/1"></script>
+
+        <!-- Some js that calls to our main .js file -->
+        <script type="text/javascript">
+            // Get DOM elements
+            timerText = document.getElementById("timerText");
+            notiText = document.getElementById("notiText");
+            playButton = document.getElementById("playButton");
+            frame = document.getElementById("frame");
+
+            // Initialization
+            setup(timerText, notiText, playButton, frame);
+        </script>
+    </body>
+</html>

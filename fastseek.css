@@ -1,0 +1,28 @@
+/*
+ * This file contains styles for FastFind
+ * By gvl610
+ */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+iframe {
+    display: block;       /* iframes are inline by default */
+    background: #FFFFFF;
+    border: none;         /* Reset default border */
+    height: 100vh;        /* Viewport-relative units */
+    width: 97vw;
+}
+
+#upPanel {
+    display: flex;                  /* establish flex container */
+    flex-direction: row;            /* default value; can be omitted */
+    flex-wrap: nowrap;              /* default value; can be omitted */
+    justify-content: space-between; /* switched from default */
+}
+
+.bigButton {
+    height:73.34px;
+    width:73.34px;
+}
