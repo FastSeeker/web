@@ -18,7 +18,8 @@ function LOG(lvl, msg) {
 var timerText, notiText, playButton, frame; // DOM
 var ssu = new SpeechSynthesisUtterance();
 
-var toleranceRange = 100;
+// Max distance to be considered a win
+var toleranceRange = 30;
 
 var playing = false;
 var playTimeSec = 0;
@@ -83,7 +84,7 @@ function win() {
     playing = false;
     notiText.style.display = "block";
     window.speechSynthesis.cancel();
-    alert("You win!");
+    alert("You win! It took you " + timerText.innerText + "!");
 }
 
 // Lose event
@@ -95,10 +96,10 @@ function lose() {
     }
 
     playing = false;
-    statusText.style.display = "block";
-    statusText.innerText = "You lose!";
+    notiText.style.display = "block";
+    notiText.innerText = "You lose!";
     window.speechSynthesis.cancel();
-    alert("You lose!");
+    alert("You lose! You lost " + timerText.innerText + " of your life for nothing :( Try harder next time!");
 }
 
 // Play
