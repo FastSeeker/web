@@ -117,7 +117,7 @@ function lose() {
 function startGame() {
     // Refuse to play if page is not loaded
     if (frame.contentDocument.body.innerHTML === "") {
-        alert("Randomize the article first!");
+        alert("Give me something to read first! Either randomize or custom.");
         return;
     }
 
@@ -270,6 +270,7 @@ function randomIntFromInterval(min, max) { // min and max included
 // Custom mode button handler
 function customMode() {
     gameMode = 1;
+    playing = false;
     LOG(1, "[GAME] Enter custom mode");
 
     // Reset
@@ -308,4 +309,16 @@ function manualInputDone() {
 function manualInputClear() {
     manualInputField.value = "";
     LOG(1, "[MAN] Manual input text area cleared");
+}
+
+// Highlight current word
+function highlightCurrent() {
+    // Get absCurrIdx
+    absCurrIdx = currIdx + startIdx;
+
+    // Hopefully we will have better way to do this in the future
+
+    // Get current word/phrase for searching
+    // Hopefully we will find better search pattern in the future
+    currP = fullText.slice(absCurrIdx).split(" ")[0].split(".")[0].split("\n")[0];
 }
