@@ -92,6 +92,7 @@ function reset() {
 
 // Win event
 function win() {
+    if (!playing) return;
     playing = false;
     notiText.style.display = "block";
     window.speechSynthesis.cancel();
@@ -100,6 +101,7 @@ function win() {
 
 // Lose event
 function lose() {
+    if (!playing) return;
     // Refuse to play if page is not loaded
     if (frame.contentDocument.body.innerHTML === "") {
         alert("You resign even without trying. Come on!");
@@ -156,6 +158,7 @@ function findFirstDiffPos(a, b) {
 
 // Handle click event
 function clickHandler() {
+    if (!playing) return;
     LOG(3, "[SEL] Click detected!");
     // Stupid method for detecting if user's selected word is what currently being read:
     // Step 1: Get selection string inside iframe
@@ -217,6 +220,7 @@ function onboundaryHandler(event) {
 
 // Handle ssu end event
 function onendHandler(event) {
+    if (!playing) return;
     LOG(1, "[GAME] Audio ended. You lose!");
     lose();
 }
