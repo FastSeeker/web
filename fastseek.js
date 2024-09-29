@@ -317,6 +317,15 @@ function highlightCurrent() {
     absCurrIdx = currIdx + startIdx;
 
     // Hopefully we will have better way to do this in the future
+    // Here is how it works:
+    // Step 1: Get current word/phrase for searching
+    // Step 2: Search for all the deepest, keyword-containg elements and ignore JS and CSS elements (which might contain the keyword but not the content)
+    // Step 3: Iterate through each element
+    //    3.1: See how many keywords are in that element
+    //    3.2: Delete each instance of the keyword and check with step 4 
+    // Step 4: Goto absCurrIdx at body.innerText and confirm if the correct word is deleted
+    // Step 5: If correct -> highlight that keyword in the element
+    // Step 6: If not correct -> Go back to step 3. If there are still keywords in the same element, move to next keyword. Otherwise just move to next element
 
     // Get current word/phrase for searching
     // Hopefully we will find better search pattern in the future
