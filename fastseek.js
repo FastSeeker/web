@@ -118,12 +118,7 @@ function lose() {
 
 // Play
 function startGame() {
-    if (playing) {
-        alert("You are currently in a game! Try resigning first if you want to start another!");
-        return;
-    }
-
-    window.speechSynthesis.cancel();
+    if (playing) return;
 
     // Refuse to play if page is not loaded
     if (frame.contentDocument.body.innerHTML === "") {
@@ -142,6 +137,7 @@ function startGame() {
     LOG(3, "[READ] " + readingText);
 
     // Start reading
+    window.speechSynthesis.cancel();
     ssu.onboundary = onboundaryHandler;
     ssu.onend = onendHandler;
     ssu.text = readingText;
@@ -307,7 +303,9 @@ function manualInputDone() {
     frame.src = "about:blank";
 
     // Write content to iframe
-    frame.contentDocument.write(manualInputField.value);
+    frame.contentDocument.write("<body></body>");
+    frame.contentDocument.body.innerText = manualInputField.value;
+    //frame.contentDocument.write(manualInputField.value);
 
     // Extract text from the article
     fullText = frame.contentDocument.body.innerText;
@@ -343,4 +341,7 @@ function highlightCurrent() {
     // Get current word/phrase for searching
     // Hopefully we will find better search pattern in the future
     currP = fullText.slice(absCurrIdx).split(" ")[0].split(".")[0].split("\n")[0];
+
+    // Search for elements
+
 }
