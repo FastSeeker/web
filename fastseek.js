@@ -102,6 +102,8 @@ function win() {
 // Lose event
 function lose() {
     if (!playing) return;
+    window.speechSynthesis.cancel();
+
     // Refuse to play if page is not loaded
     if (frame.contentDocument.body.innerHTML === "") {
         alert("You resign even without trying. Come on!");
@@ -111,12 +113,18 @@ function lose() {
     playing = false;
     notiText.style.display = "block";
     notiText.innerText = "You lose!";
-    window.speechSynthesis.cancel();
     alert("You lose! You lost " + timerText.innerText + " of your life for nothing :( Try harder next time!");
 }
 
 // Play
 function startGame() {
+    if (playing) {
+        alert("You are currently in a game! Try resigning first if you want to start another!");
+        return;
+    }
+
+    window.speechSynthesis.cancel();
+
     // Refuse to play if page is not loaded
     if (frame.contentDocument.body.innerHTML === "") {
         alert("Give me something to read first! Either randomize or custom.");
@@ -134,7 +142,6 @@ function startGame() {
     LOG(3, "[READ] " + readingText);
 
     // Start reading
-    window.speechSynthesis.cancel();
     ssu.onboundary = onboundaryHandler;
     ssu.onend = onendHandler;
     ssu.text = readingText;
@@ -273,6 +280,8 @@ function randomIntFromInterval(min, max) { // min and max included
 
 // Custom mode button handler
 function customMode() {
+    window.speechSynthesis.cancel();
+    
     gameMode = 1;
     playing = false;
     LOG(1, "[GAME] Enter custom mode");
